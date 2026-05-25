@@ -1,0 +1,12 @@
+const express = require("express");
+const healthRoutes = require("./routes/health.routes");
+
+const app = express();
+app.get("/", (req, res) => {
+  res.json({
+    message: "Bem-vindo à API do Gerenciador de Agendamentos da Barbearia!",
+  });
+});
+app.use(healthRoutes);
+
+module.exports = app;
