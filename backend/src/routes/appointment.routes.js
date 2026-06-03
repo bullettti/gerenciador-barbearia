@@ -1,14 +1,19 @@
 const express = require("express");
 const pool = require("../database/connection");
+const logger = require("../utils/logger");
 
 const router = express.Router();
 
 router.get("/appointments", async (req, res) => {
   try {
+    logger.info("Buscando lista de agendamentos");
+
     const result = await pool.query("SELECT * FROM appointments");
 
     res.json(result.rows);
   } catch (error) {
+    logger.error(`Erro ao buscar agendamentos: ${error.message}`);
+
     res.status(500).json({
       message: "Erro ao buscar agendamentos.",
     });
@@ -33,14 +38,18 @@ router.post("/appointments", async (req, res) => {
 
     const existingAppointment = await pool.query(
       `SELECT * FROM appointments
-   WHERE barber_name = $1
-   AND appointment_date = $2
-   AND appointment_time = $3
-   AND status = 'scheduled'`,
+       WHERE barber_name = $1
+       AND appointment_date = $2
+       AND appointment_time = $3
+       AND status = 'scheduled'`,
       [barber_name, appointment_date, appointment_time],
     );
 
     if (existingAppointment.rows.length > 0) {
+      logger.warn(
+        `Tentativa de agendamento em horário ocupado: barbeiro=${barber_name}, data=${appointment_date}, horario=${appointment_time}`,
+      );
+
       return res.status(409).json({
         message: "Este horário já está ocupado para este barbeiro.",
       });
@@ -56,6 +65,8 @@ router.post("/appointments", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    logger.error(`Erro ao criar agendamento: ${error.message}`);
+
     res.status(500).json({
       message: "Erro ao criar agendamento.",
     });
@@ -82,6 +93,8 @@ router.patch("/appointments/:id/cancel", async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
+    logger.error(`Erro ao cancelar agendamento: ${error.message}`);
+
     res.status(500).json({
       message: "Erro ao cancelar agendamento.",
     });
@@ -131,6 +144,8 @@ router.get("/appointments/available-times", async (req, res) => {
       available_times: availableTimes,
     });
   } catch (error) {
+    logger.error(`Erro ao buscar horários disponíveis: ${error.message}`);
+
     res.status(500).json({
       message: "Erro ao buscar horários disponíveis.",
     });

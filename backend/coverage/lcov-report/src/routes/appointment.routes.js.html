@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.29% </span>
+                <span class="strong">64.58% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/41</span>
+                <span class='fraction'>31/48</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.29% </span>
+                <span class="strong">64.58% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/41</span>
+                <span class='fraction'>31/48</span>
             </div>
         
             
@@ -203,7 +203,23 @@
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
 <a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -213,6 +229,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -250,6 +270,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -258,6 +282,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,6 +310,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,6 +366,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -345,15 +375,20 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require("express");
 const pool = require("../database/connection");
+const logger = require("../utils/logger");
 &nbsp;
 const router = express.Router();
 &nbsp;
 router.get("/appointments", async (req, res) =&gt; {
   try {
+    logger.info("Buscando lista de agendamentos");
+&nbsp;
     const result = await pool.query("SELECT * FROM appointments");
 &nbsp;
     res.json(result.rows);
   } catch (error) {
+<span class="cstat-no" title="statement not covered" >    logger.error(`Erro ao buscar agendamentos: ${error.message}`);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
       message: "Erro ao buscar agendamentos.",
     });
@@ -378,14 +413,18 @@ router.post("/appointments", async (req, res) =&gt; {
 &nbsp;
     const existingAppointment = await pool.query(
       `SELECT * FROM appointments
-   WHERE barber_name = $1
-   AND appointment_date = $2
-   AND appointment_time = $3
-   AND status = 'scheduled'`,
+       WHERE barber_name = $1
+       AND appointment_date = $2
+       AND appointment_time = $3
+       AND status = 'scheduled'`,
       [barber_name, appointment_date, appointment_time],
     );
 &nbsp;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (existingAppointment.rows.length &gt; 0) {
+      logger.warn(
+        `Tentativa de agendamento em horário ocupado: barbeiro=${barber_name}, data=${appointment_date}, horario=${appointment_time}`,
+      );
+&nbsp;
       return res.status(409).json({
         message: "Este horário já está ocupado para este barbeiro.",
       });
@@ -401,6 +440,8 @@ router.post("/appointments", async (req, res) =&gt; {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(201).json(result.rows[0]);</span>
   } catch (error) {
+<span class="cstat-no" title="statement not covered" >    logger.error(`Erro ao criar agendamento: ${error.message}`);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
       message: "Erro ao criar agendamento.",
     });
@@ -427,6 +468,8 @@ router.patch("/appointments/:id/cancel", <span class="fstat-no" title="function 
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    res.json(result.rows[0]);</span>
   } catch (error) {
+<span class="cstat-no" title="statement not covered" >    logger.error(`Erro ao cancelar agendamento: ${error.message}`);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
       message: "Erro ao cancelar agendamento.",
     });
@@ -476,6 +519,8 @@ router.get("/appointments/available-times", async (req, res) =&gt; {
       available_times: availableTimes,
     });
   } catch (error) {
+<span class="cstat-no" title="statement not covered" >    logger.error(`Erro ao buscar horários disponíveis: ${error.message}`);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
       message: "Erro ao buscar horários disponíveis.",
     });
@@ -490,7 +535,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-02T21:15:29.707Z
+                at 2026-06-03T04:04:36.612Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
