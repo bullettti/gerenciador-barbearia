@@ -10,8 +10,7 @@ function App() {
   const [appointments, setAppointments] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
   async function loadAppointments() {
     const response = await fetch(`${API_URL}/appointments`);
     const data = await response.json();
