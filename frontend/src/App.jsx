@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [clientName, setClientName] = useState("");
@@ -11,8 +10,10 @@ function App() {
   const [appointments, setAppointments] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   async function loadAppointments() {
-    const response = await fetch("${API_URL}/appointments");
+    const response = await fetch(`${API_URL}/appointments`);
     const data = await response.json();
 
     setAppointments(data);
@@ -44,7 +45,7 @@ function App() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const response = await fetch("${API_URL}/appointments", {
+    const response = await fetch(`${API_URL}/appointments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
