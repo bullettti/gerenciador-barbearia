@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [clientName, setClientName] = useState("");
@@ -11,7 +12,7 @@ function App() {
   const [availableTimes, setAvailableTimes] = useState([]);
 
   async function loadAppointments() {
-    const response = await fetch("http://localhost:3000/appointments");
+    const response = await fetch("${API_URL}/appointments");
     const data = await response.json();
 
     setAppointments(data);
@@ -24,7 +25,7 @@ function App() {
     }
 
     const response = await fetch(
-      `http://localhost:3000/appointments/available-times?barber_name=${barberName}&appointment_date=${appointmentDate}`,
+      `${API_URL}/appointments/available-times?barber_name=${barberName}&appointment_date=${appointmentDate}`,
     );
 
     const data = await response.json();
@@ -43,7 +44,7 @@ function App() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const response = await fetch("http://localhost:3000/appointments", {
+    const response = await fetch("${API_URL}/appointments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,12 +73,9 @@ function App() {
   }
 
   async function handleCancel(id) {
-    const response = await fetch(
-      `http://localhost:3000/appointments/${id}/cancel`,
-      {
-        method: "PATCH",
-      },
-    );
+    const response = await fetch(`${API_URL}/appointments/${id}/cancel`, {
+      method: "PATCH",
+    });
 
     const data = await response.json();
 
